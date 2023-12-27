@@ -1,41 +1,75 @@
-import easyocr
-import matplotlib.pyplot as plt
-import numpy as np
-from PIL import Image
 import cv2
+import numpy as np
+# import matplotlib.pyplot as plt
+import easyocr
+import pytesseract
 
-PHOTO_PATH = 'example.png'
-CUT_PHOTO_PATH = f'{PHOTO_PATH.split(".")[0]}_cut.png'
+pytesseract.pytesseract.tesseract_cmd = r'/usr/bin/tesseract'
 
-def get_plate(image: Image.Image) -> str:
-    pic = np.array(image)
+IMAGE_PATH = 'example.png'
 
-    saturation = 24
-    saturation_main = 48
+def detect_and_cut_plate(path: str):
+    img = cv2.imread(path, cv2.IMREAD_COLOR)
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-    mask = (pic[:,:,0] > 40) | ((pic[:, :, 1] < 60) & (pic[:, :, 1] > 120)) | ((pic[:, :, 2] < 160) & (pic[:, :, 2] > 230))
-    pic[mask] = 255
+    # blur image for easier shapes recognition
+    gray = cv2.bilateralFilter(gray, 13, 15, 15)
 
-    Image.fromarray(pic).save(CUT_PHOTO_PATH)
+    # transforming image for countour
+    edged = cv2.Canny(gray, 30, 200)
 
+    contours, _ = cv2.findContours(edged.copy(), cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    contours = sorted(contours, key=cv2.contourArea, reverse=True)
+    plate_countour = None
+
+    for c in contours:
+        peri = cv2.arcLength(c, True)
+        approx = cv2.approxPolyDP(c, 0.018 * peri, True)
+
+        if len(approx) == 4:
+            plate_countour = approx
+            break
+
+    if plate_countour is None:
+        print("No plate detected")
+        return None
+
+    # creating mask and fill with shape of plate
+    mask = np.zeros(gray.shape, np.uint8)
+    cv2.drawContours(mask, [plate_countour], 0, (255, 255, 255), -1)
+
+    # getting coords where mask is white
+    x, y = np.where(mask == 255)
+    topX, topY = (np.min(x), np.min(y))
+    bottomX, bottomY = (np.max(x), np.max(y))
+
+    # crop and save image
+    cropped_image = gray[topX:bottomX, topY:bottomY]
+    cropped_path = f'{path.split(".")[0]}_cropped.png'
+    cv2.imwrite(cropped_path, cropped_image)
+
+    return cropped_path
+
+def recognize_plate_numbers(path: str):
+    img = cv2.imread(path, cv2.IMREAD_COLOR)
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+    # thresholding image for better recognition with ocr
+    _, thresh = cv2.threshold(gray, 72, 255, cv2.THRESH_BINARY)
+
+    # EasyOCR
     reader = easyocr.Reader(['en'])
-    # TODO: Expand bounding box to always read plate as one text
-    results = reader.readtext(CUT_PHOTO_PATH)
+    results = reader.readtext(thresh, detail=0)
+    return ''.join(results)
 
-    result_plate = ''
+    # pytesseract
+    # result = pytesseract.image_to_string(thresh, config='--psm 7')
+    # return result
 
-    for result in results:
-        result_plate += result[1]
-        # cv2.rectangle(pic, [int(result[0][0][0]), int(result[0][0][1])], [int(result[0][2][0]), int(result[0][2][1])], (255, 0, 0), 5)
-
-    plt.imshow(pic)
-    plt.show()
-    return result_plate
-
-def polish_plate_validation(plate: str) -> bool:
+# TODO: Implement plate validation
+def plate_validation(plate: str):
     pass
 
-
-image = Image.open(PHOTO_PATH)
-plate = get_plate(image)
+cropped_path = detect_and_cut_plate(IMAGE_PATH)
+plate = recognize_plate_numbers(cropped_path)
 print(plate)

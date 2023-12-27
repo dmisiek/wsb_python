@@ -161,4 +161,4 @@ cython_debug/
 
 
 # Project related
-plate_validate/*_cut.png
+plate_validate/*_cropped.png
