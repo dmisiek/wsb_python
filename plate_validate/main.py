@@ -1,8 +1,11 @@
 import cv2
+import matplotlib.pyplot as plt
 import numpy as np
 # import matplotlib.pyplot as plt
 import easyocr
 import pytesseract
+
+from plate_validate.plate_validator import TwoDigitDiscriminantPlateValidator, ThreeDigitDiscriminantPlateValidator
 
 pytesseract.pytesseract.tesseract_cmd = r'/usr/bin/tesseract'
 
@@ -67,9 +70,13 @@ def recognize_plate_numbers(path: str):
     # return result
 
 # TODO: Implement plate validation
-def plate_validation(plate: str):
-    pass
+def validate_plate(plate: str):
+    validator = ThreeDigitDiscriminantPlateValidator(plate)
+    print(validator, validator.validate())
 
-cropped_path = detect_and_cut_plate(IMAGE_PATH)
-plate = recognize_plate_numbers(cropped_path)
-print(plate)
+# TODO: Uncomment after plate validator will be full implemented
+# cropped_path = detect_and_cut_plate(IMAGE_PATH)
+# plate = recognize_plate_numbers(cropped_path)
+# print(plate)
+
+plate_validation = validate_plate('XY1AA04')
