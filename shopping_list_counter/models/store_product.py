@@ -31,7 +31,7 @@ class StoreProduct(object):
     def __str__(self):
         return f'[{self.make}] {self.name}: {self.price}'
 
-    def supports_partial_amount(self) -> bool:
+    def can_buy_loose(self) -> bool:
         return self.weight is None and self.unit is not None
 
     def get_weight_text(self) -> str:
@@ -60,8 +60,8 @@ class StoreProduct(object):
         weight, unit = parsed_weight
         basis_weight, basis_unit = StoreProduct.transform_weight_for_basis_unit(weight, unit)
 
-        if weight.is_integer() and basis_unit == 'SZT':
-            return weight[0]
+        if weight.is_integer() and self.weight is not None and basis_unit == 'SZT':
+            return weight
 
         product_basis_weight = self.get_product_weight_in_basis_unit()
         if product_basis_weight is None:
@@ -71,7 +71,7 @@ class StoreProduct(object):
         if product_unit != basis_unit:
             return None
 
-        if self.supports_partial_amount():
+        if self.can_buy_loose():
             return round(weight, 2)
 
         return int(math.ceil(basis_weight / product_weight))
@@ -98,7 +98,7 @@ class StoreProduct(object):
         match = re.search(r'\d*[,.]?\d+(KG|G|SZT|L|ML)', text)
         if match is None:
             if re.search(r'(1 SZT|1 PĘCZEK|\sSZTUKA)', text) is not None:
-                return [1, 'SZT']
+                return [1.0, 'SZT']
             if re.search(r'(\sKG|\sLUZ)', text) is not None:
                 return [None, 'KG']
             return None

@@ -44,7 +44,7 @@ class Cart(object):
     def show(self):
         frame_data = []
         for product in self.products:
-            frame_data.append([product.make, product.name, f'{product.price} zł', product.amount, f'{product.get_total_price()} zł'])
+            frame_data.append([product.make, product.name, f'{product.price:.2f} zł', product.amount, f'{product.get_total_price()} zł'])
 
         frame_data.append(['','','','', f'{self.get_total_price()} zł'])
         df = pd.DataFrame(frame_data, columns=['Make', 'Name', 'Price', 'Amount', 'Total price'])

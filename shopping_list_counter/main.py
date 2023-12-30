@@ -20,9 +20,8 @@ def main():
 
     cart = Cart()
     shopping_list = [
-        {'name': 'monster', 'quantity': '2.5SZT'},
-        {'name': 'banan', 'quantity': '2.5KG'},
-        {'name': 'sprite', 'quantity': '1L'},
+        {'name': 'cytryna', 'quantity': '5SZT'},
+        {'name': 'tymbark', 'quantity': '2.5SZT'},
     ]
 
     for item in shopping_list:
@@ -110,7 +109,7 @@ def search_for_product(product_name: str, quantity: Optional[str]) -> Optional[C
                 if amount <= 0:
                     raise ValueError
 
-                if products[selected].supports_partial_amount():
+                if products[selected].can_buy_loose():
                     break
 
                 if amount.is_integer():
