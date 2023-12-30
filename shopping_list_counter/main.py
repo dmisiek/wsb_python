@@ -20,8 +20,8 @@ def main():
 
     cart = Cart()
     shopping_list = [
-        {'name': 'monster', 'quantity': '2SZT'},
-        {'name': 'banan', 'quantity': '2KG'},
+        {'name': 'monster', 'quantity': '2.5SZT'},
+        {'name': 'banan', 'quantity': '2.5KG'},
         {'name': 'sprite', 'quantity': '1L'},
     ]
 
@@ -76,7 +76,7 @@ def search_for_product(product_name: str, quantity: Optional[str]) -> Optional[C
         price = product_prices[i].text
 
         product = StoreProduct(name, make, price)
-        frame_data.append([product.make, product.name, product.price_text, f'{product.weight} {product.unit}'])
+        frame_data.append([product.make, product.name, product.price_text, product.get_weight_text()])
         products.append(product)
 
     frame_data.append(['SKIP PRODUCT', '', '', ''])

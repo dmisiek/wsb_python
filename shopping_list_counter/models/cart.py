@@ -1,5 +1,6 @@
 from shopping_list_counter.models.store_product import StoreProduct
 import pandas as pd
+import math
 
 class CartProduct(object):
     name: str
@@ -12,7 +13,7 @@ class CartProduct(object):
         self.make = make
         self.price = float(price)
         assert amount > 0, "Amount must be at least 0.1 to arrive on shopping list"
-        self.amount = int(amount)
+        self.amount = float(amount)
 
     @staticmethod
     def create_from_store_product(product: StoreProduct, amount: float):
@@ -24,7 +25,7 @@ class CartProduct(object):
         )
 
     def get_total_price(self) -> float:
-        return self.amount * self.price
+        return math.ceil(self.amount * self.price * 100) / 100
 
 class Cart(object):
     products: list[CartProduct]
@@ -37,14 +38,15 @@ class Cart(object):
         self.products.append(product)
 
     def get_total_price(self) -> float:
-        return sum(map(lambda x: x.get_total_price(), self.products))
+        total_price = sum(map(lambda x: x.get_total_price(), self.products))
+        return math.ceil(total_price * 100) / 100
 
     def show(self):
         frame_data = []
         for product in self.products:
-            frame_data.append([product.make, product.name, f'{product.price} zł', product.amount, product.get_total_price()])
+            frame_data.append([product.make, product.name, f'{product.price} zł', product.amount, f'{product.get_total_price()} zł'])
 
-        frame_data.append(['','','','',self.get_total_price()])
+        frame_data.append(['','','','', f'{self.get_total_price()} zł'])
         df = pd.DataFrame(frame_data, columns=['Make', 'Name', 'Price', 'Amount', 'Total price'])
 
         print('\nCurrent state of cart: ')

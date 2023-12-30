@@ -32,44 +32,66 @@ class StoreProduct(object):
         return f'[{self.make}] {self.name}: {self.price}'
 
     def supports_partial_amount(self) -> bool:
-        # TODO: Create support for partial amount - e.g. "BANAN KG LUZ"
         return self.weight is None and self.unit is not None
 
+    def get_weight_text(self) -> str:
+        if self.unit is None:
+            return '-'
+
+        if self.weight is None:
+            return self.unit
+
+        if self.weight.is_integer():
+            return f'{self.weight:.0f} {self.unit}'
+
+        return f'{self.weight:.2f} {self.unit}'
+
     def get_product_weight_in_basis_unit(self) -> Optional[list[float, str]]:
-        if self.weight is None or self.unit is None:
+        if self.unit is None:
             return None
 
         return StoreProduct.transform_weight_for_basis_unit(self.weight, self.unit)
 
-    def calc_amount_for_weight(self, weight_text: str) -> Optional[int]:
-        basis_weight = StoreProduct.parse_weight_and_unit(weight_text)
-        if basis_weight is None:
+    def calc_amount_for_weight(self, weight_text: str) -> Optional[float]:
+        parsed_weight = StoreProduct.parse_weight_and_unit(weight_text)
+        if parsed_weight is None:
             return None
 
-        weight, unit = StoreProduct.transform_weight_for_basis_unit(basis_weight[0], basis_weight[1])
+        weight, unit = parsed_weight
+        basis_weight, basis_unit = StoreProduct.transform_weight_for_basis_unit(weight, unit)
 
-        if unit == 'SZT':
-            return weight
+        if weight.is_integer() and basis_unit == 'SZT':
+            return weight[0]
 
         product_basis_weight = self.get_product_weight_in_basis_unit()
-        if product_basis_weight is None or product_basis_weight[1] != unit:
+        if product_basis_weight is None:
             return None
 
         product_weight, product_unit = product_basis_weight
-        return int(math.ceil(weight / product_weight))
+        if product_unit != basis_unit:
+            return None
+
+        if self.supports_partial_amount():
+            return round(weight, 2)
+
+        return int(math.ceil(basis_weight / product_weight))
 
     @staticmethod
     def transform_weight_for_basis_unit(weight: float, unit: str) -> Optional[list[float, str]]:
-        quantity = None
+        base_units = None
         for unit_type in StoreProduct.UNITS:
             if unit in unit_type.keys():
-                quantity = unit_type
+                base_units = unit_type
                 break
 
-        if quantity is None:
+        if base_units is None:
             return None
 
-        return [weight * quantity[unit], list(quantity.keys())[0]]
+        base_unit = list(base_units.keys())[0]
+        if weight is None:
+            return [None, base_unit]
+
+        return [weight * base_units[unit], base_unit]
 
     @staticmethod
     def parse_weight_and_unit(text: str) -> Optional[list[float, str]]:
@@ -78,7 +100,7 @@ class StoreProduct(object):
             if re.search(r'(1 SZT|1 PĘCZEK|\sSZTUKA)', text) is not None:
                 return [1, 'SZT']
             if re.search(r'(\sKG|\sLUZ)', text) is not None:
-                return [1, 'KG']
+                return [None, 'KG']
             return None
 
         temp = str(match.group(0))
