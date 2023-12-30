@@ -33,6 +33,7 @@ class Cart(object):
         self.products = []
 
     def add_product(self, product: CartProduct):
+        assert product is not CartProduct, "`product` must be class of CartProduct"
         self.products.append(product)
 
     def get_total_price(self) -> float:
@@ -45,7 +46,8 @@ class Cart(object):
 
         frame_data.append(['','','','',self.get_total_price()])
         df = pd.DataFrame(frame_data, columns=['Make', 'Name', 'Price', 'Amount', 'Total price'])
-        print('Current state of cart: ')
+
+        print('\nCurrent state of cart: ')
         print(df)
 
     def show_on_chart(self):

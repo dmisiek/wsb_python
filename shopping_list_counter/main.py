@@ -19,7 +19,17 @@ def main():
     print('Reading provided shopping list...')
 
     cart = Cart()
-    cart.add_product(search_for_product_price('banan', '2KG'))
+    shopping_list = [
+        {'name': 'monster', 'quantity': '2SZT'},
+        {'name': 'banan', 'quantity': '2KG'},
+        {'name': 'sprite', 'quantity': '1L'},
+    ]
+
+    for item in shopping_list:
+        product = search_for_product(item['name'], item['quantity'])
+        if product is not None:
+            cart.add_product(product)
+
     cart.show()
 
 def read_shopping_list(img_path: str):
@@ -38,8 +48,8 @@ def read_shopping_list(img_path: str):
     print(results)
     return results
 
-def search_for_product_price(product_name: str, quantity: Optional[str]) -> Optional[CartProduct]:
-    print(f"Start searching for '{product_name}'...")
+def search_for_product(product_name: str, quantity: Optional[str]) -> Optional[CartProduct]:
+    print(f"\nStart searching for '{product_name}'...")
     base_url = "https://intermarchebochnia.pl/szukaj"
     params = {
         'controller': 'search',
@@ -53,6 +63,10 @@ def search_for_product_price(product_name: str, quantity: Optional[str]) -> Opti
     product_makes = dom.xpath('//*[@id="js-product-list"]/div/div/article/div[2]/div[1]/div[1]/a')
     product_prices = dom.xpath('//*[@id="js-product-list"]/div/div/article/div[2]/div[1]/div[3]/span[2]')
 
+    if len(product_names) == 0:
+        print(f"Product '{product_name}' not found!")
+        return None
+
     products = []
     frame_data = []
 
@@ -65,21 +79,48 @@ def search_for_product_price(product_name: str, quantity: Optional[str]) -> Opti
         frame_data.append([product.make, product.name, product.price_text, f'{product.weight} {product.unit}'])
         products.append(product)
 
+    frame_data.append(['SKIP PRODUCT', '', '', ''])
     df = pd.DataFrame(frame_data, columns=['Make', 'Name', 'Price', 'Weight'])
     print(df, '\n')
 
-    # TODO: Add possibility to skip product, if search result not satisfied
-    selected = int(input('Which product would you like to buy?: '))
-    print('')
+    while True:
+        try:
+            selected = int(input('Which product would you like to buy? '))
+            if 0 <= selected <= len(products):
+                break
+
+            raise ValueError
+        except ValueError:
+            print(f'Enter correct value from range 0-{len(products)}! \n')
+            continue
+
+    if selected == len(products):
+        print('Skipping this product...')
+        return None
 
     amount = None
     if quantity is not None:
         amount = products[selected].calc_amount_for_weight(quantity)
 
     if amount is None:
-        amount = float(input('How much would you like to buy?: '))
+        while True:
+            try:
+                amount = float(input('How much would you like to buy?: '))
 
-    print('')
+                if amount <= 0:
+                    raise ValueError
+
+                if products[selected].supports_partial_amount():
+                    break
+
+                if amount.is_integer():
+                    break
+
+                print("This product doesn't support partial amounts!")
+            except ValueError:
+                print(f'Enter correct amount, greater than 0')
+                continue
+
     return CartProduct.create_from_store_product(products[selected], amount)
 
 main()
