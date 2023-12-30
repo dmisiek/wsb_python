@@ -17,11 +17,15 @@ pd.set_option('display.width', 1000)
 
 def main():
     print('Reading provided shopping list...')
+    # shopping_list = read_shopping_list(path)
 
     cart = Cart()
     shopping_list = [
-        {'name': 'cytryna', 'quantity': '5SZT'},
-        {'name': 'tymbark', 'quantity': '2.5SZT'},
+        {'name': 'cytryna', 'quantity': '0.5KG'},
+        {'name': 'tymbark', 'quantity': '2SZT'},
+        {'name': 'primavera', 'quantity': '6SZT'},
+        {'name': 'monster', 'quantity': '1L'},
+        {'name': 'chipsy', 'quantity': '2SZT'},
     ]
 
     for item in shopping_list:
@@ -30,6 +34,7 @@ def main():
             cart.add_product(product)
 
     cart.show()
+    cart.show_on_chart()
 
 def read_shopping_list(img_path: str):
     # TODO: Implement correct reading from list

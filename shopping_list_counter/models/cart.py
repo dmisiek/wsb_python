@@ -1,3 +1,5 @@
+from matplotlib import pyplot as plt
+
 from shopping_list_counter.models.store_product import StoreProduct
 import pandas as pd
 import math
@@ -53,7 +55,20 @@ class Cart(object):
         print(df)
 
     def show_on_chart(self):
-        # TODO: Implement showing products shares on chart
-        pass
+        total_price = self.get_total_price()
 
+        data = [product.get_total_price() / total_price for product in self.products]
+        labels = [product.name for product in self.products]
 
+        plt.pie(
+            data,
+            labels=labels,
+            autopct=lambda pct: self.__build_on_chart_label(pct, total_price)
+        )
+        plt.title(f'Cart (total: {total_price} zł)')
+        plt.show()
+
+    @staticmethod
+    def __build_on_chart_label(pct, total_price):
+        product_price = pct * total_price / 100
+        return f"{pct:.2f}%\n({product_price:.2f} zł)"
