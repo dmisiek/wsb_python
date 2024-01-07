@@ -1,6 +1,5 @@
 import cv2
 import easyocr
-import matplotlib.pyplot as plt
 from typing import Optional
 from urllib.request import urlopen
 from urllib.parse import urlencode
@@ -17,17 +16,33 @@ pd.set_option('display.width', 1000)
 
 def main():
     print('Reading provided shopping list...')
-    # shopping_list = read_shopping_list(path)
+    products = read_shopping_list(path)
+    shopping_list = []
+
+    for item in products:
+        tmp = StoreProduct.detect_weight_and_unit(item)
+
+        if tmp is not None:
+            if float(tmp[0]).is_integer():
+                unit = f'{tmp[0]:.0f}{tmp[1]}'
+            else:
+                unit = f'{tmp[0]}{tmp[1]}'
+
+
+            shopping_list.append({
+                'name': item.replace(unit, '').strip(),
+                'quantity': unit
+            })
+        else:
+            shopping_list.append({
+                'name': item.strip(),
+                'quantity': None,
+            })
+
+        print(shopping_list[-1])
+
 
     cart = Cart()
-    shopping_list = [
-        {'name': 'cytryna', 'quantity': '0.5KG'},
-        {'name': 'tymbark', 'quantity': '2SZT'},
-        {'name': 'primavera', 'quantity': '6SZT'},
-        {'name': 'monster', 'quantity': '1L'},
-        {'name': 'chipsy', 'quantity': '2SZT'},
-    ]
-
     for item in shopping_list:
         product = search_for_product(item['name'], item['quantity'])
         if product is not None:
@@ -37,19 +52,14 @@ def main():
     cart.show_on_chart()
 
 def read_shopping_list(img_path: str):
-    # TODO: Implement correct reading from list
     img = cv2.imread(img_path, cv2.IMREAD_COLOR)
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     gray = cv2.bilateralFilter(gray, 13, 15, 15)
     _, threshold = cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY)
 
-    plt.imshow(threshold)
-    plt.show()
-
     reader = easyocr.Reader(['pl'])
-    results = reader.readtext(img, decoder='wordbeamsearch', detail=0)
+    results = reader.readtext(img, detail=0)
 
-    print(results)
     return results
 
 def search_for_product(product_name: str, quantity: Optional[str]) -> Optional[CartProduct]:

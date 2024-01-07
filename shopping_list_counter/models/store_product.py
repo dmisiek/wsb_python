@@ -22,7 +22,7 @@ class StoreProduct(object):
         self.price_text = price_text.replace(',', '.')
         self.price = float(self.price_text[:-3])
 
-        basis_weight = StoreProduct.parse_weight_and_unit(self.name)
+        basis_weight = StoreProduct.detect_weight_and_unit(self.name)
         if basis_weight is None:
             self.weight, self.unit = None, None
         else:
@@ -53,7 +53,7 @@ class StoreProduct(object):
         return StoreProduct.transform_weight_for_basis_unit(self.weight, self.unit)
 
     def calc_amount_for_weight(self, weight_text: str) -> Optional[float]:
-        parsed_weight = StoreProduct.parse_weight_and_unit(weight_text)
+        parsed_weight = StoreProduct.detect_weight_and_unit(weight_text)
         if parsed_weight is None:
             return None
 
@@ -94,7 +94,7 @@ class StoreProduct(object):
         return [weight * base_units[unit], base_unit]
 
     @staticmethod
-    def parse_weight_and_unit(text: str) -> Optional[list[float, str]]:
+    def detect_weight_and_unit(text: str) -> Optional[list[float, str]]:
         match = re.search(r'\d*[,.]?\d+(KG|G|SZT|L|ML)', text)
         if match is None:
             if re.search(r'(1 SZT|1 PĘCZEK|\sSZTUKA)', text) is not None:
