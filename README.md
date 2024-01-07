@@ -4,7 +4,7 @@ Python repository with couple simple projects created for WSB University python 
 
 ### List of all tasks:
 
-1. **Napisz program, który odczytuje tekst z obrazu zawierającego wykres funkcji matematycznej, a następnie rysuje ten sam wykres za pomocą matplotlib.** [math_graph]
+1. Napisz program, który odczytuje tekst z obrazu zawierającego wykres funkcji matematycznej, a następnie rysuje ten sam wykres za pomocą matplotlib.
 
 
 2. **Napisz program, który odczytuje tekst z obrazu zawierającego numer tablicy rejestracyjnej samochodu, a następnie sprawdza, czy numer jest poprawny i zgodny z formatem.** [plate_validate]
