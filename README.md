@@ -34,10 +34,10 @@ Python repository with couple simple projects created for WSB University python 
 10. Napisz program, który odczytuje tekst z obrazu  zawierającego nazwy i zdjęcia zwierząt, a następnie  klasyfikuje zwierzęta według ich gatunku i wyświetla je na  wykresie słupkowym.
 
 
-11. **Stwórz prostą aplikację bloga, która pozwala  użytkownikom na tworzenie, edycję oraz komentowanie  postów innych użytkowników.** [blog]
+11. **Stwórz prostą aplikację bloga, która pozwala  użytkownikom na tworzenie, edycję oraz komentowanie  postów innych użytkowników.** [wsb_django > blog]
 
 
-12. **Stwórz aplikację ankiety, która pozwala użytkownikom  tworzyć, odpowiadać i przeglądać wyniki ankiet.** [questionnaire]
+12. **Stwórz aplikację ankiety, która pozwala użytkownikom  tworzyć, odpowiadać i przeglądać wyniki ankiet.** [wsb_django > surveys]
 
 
 13. Stwórz prostą alokację sklep internetowego, która pozwala  użytkownikom przeglądać, dodawać do koszyka, kupować  produkty oraz zarządzać zamówieniami i płatnościami
