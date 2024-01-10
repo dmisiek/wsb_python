@@ -1,43 +1,83 @@
 {% extends "base.html" %}
 
-{% block title %}Home Page{% endblock %}
+{% load i18n %}
+
+{% block title %}
+    wsb_django/blog: {{ post.title }}
+{% endblock %}
 
 {% block content %}
-
-
-<div class="w-full bg-stone-800">
-    <div class="w-full h-full bg-stone-100 rounded-t-3xl flex pt-10">
-        <div class="flex-1 flex justify-end">
-            <a href="/blog"
-               class="w-8 h-8 bg-white rounded-full flex items-center justify-center cursor-pointer mr-2">
-                <i>chevron_left</i>
-            </a>
-
-        </div>
-        <div class="w-full max-w-xl">
-            <div class="w-full bg-stone-100 rounded-xl px-6 pt-1 pb-10">
-                <div class="flex items-center gap-x-2">
-                    <i class="text-lg">account_circle</i>
-                    <span>{{ post.author }}</span>
-                </div>
-
-                <h2 class="text-3xl font-bold mt-6">{{ post.title }}</h2>
-                <p class="mt-2 text-sm leading-tight mb-10">{{ post.content }}</p>
-
-                <span class="text-stone-600 text-sm">{{ post.created_at }}</span>
+    <div class="w-full bg-stone-800">
+        <div class="w-full h-full bg-stone-100 rounded-t-3xl flex pt-10">
+            <div class="flex-1 flex justify-end">
+                <a href="/blog"
+                   class="w-8 h-8 bg-white rounded-full flex items-center justify-center cursor-pointer mr-2">
+                    <i>chevron_left</i>
+                </a>
             </div>
-        </div>
-        <div class="flex-1">
+            <div class="w-full max-w-xl">
+                <div class="w-full bg-stone-100 rounded-xl px-6 pt-1 pb-10">
+                    <div class="flex items-center gap-x-2">
+                        <i class="text-lg">account_circle</i>
+                        <span>{{ post.author }}</span>
+                    </div>
 
+                    <h2 class="text-3xl font-bold mt-6">{{ post.title }}</h2>
+                    <p class="mt-2 text-sm leading-tight mb-10">{{ post.content }}</p>
+
+                {% language 'pl' %}
+                    <span class="text-stone-400 text-sm">Dodano {{ post.updated_at | date:"j E G:H"}}</span>
+                {% endlanguage %}
+                </div>
+            </div>
+            <div class="flex-1"></div>
         </div>
     </div>
-</div>
 
-<div class="w-full bg-stone-100 h-12">
-    <div class="w-full h-full bg-white rounded-t-3xl"></div>
-</div>
+    <div class="w-full bg-stone-100 h-12">
+        <div class="w-full h-full bg-white rounded-t-3xl"></div>
+    </div>
 
+    {% if form is None %}
+        <form method="POST" class="hover:scale-105 duration-200">
+            {% csrf_token %}
+            <input type="hidden" name="show_add" value="true">
+            <button type="submit" class="bg-stone-800 rounded-3xl p-4 flex items-center gap-x-2 w-full max-w-xl mx-auto text-white">
+                <i>add_circle</i>
+                Skomentuj
+            </button>
+        </form>
+    {% else %}
+        <form method="POST"  class="bg-stone-800 rounded-3xl p-6 gap-x-2 w-full max-w-xl mx-auto text-white">
+            {% csrf_token %}
 
+            {{ form }}
 
+            <button type="submit"
+               class="bg-red-800/80 hover:bg-red-800 duration-150 rounded-full px-4 py-1 text-white flex items-center w-max text-sm gap-x-2">
+                Zapisz
+                <i class="text-sm text-white">done</i>
+            </button>
+        </form>
+    {% endif %}
 
+    <div class="mt-4"></div>
+
+    <div class="w-full max-w-xl mx-auto flex flex-col gap-y-4">
+
+        {% for comment in comments %}
+            <div class=" bg-stone-100 px-6 py-4 rounded-xl">
+                <div class="flex items-center gap-x-1">
+                    <i class="text-base">account_circle</i>
+                    <span class="text-sm">{{ post.author }}</span>
+                </div>
+                <p class="text-sm leading-tight mt-2 mb-6">{{ comment.content }}</p>
+
+                {% language 'pl' %}
+                    <span class="text-stone-400 text-sm">Odpowiedział {{ comment.created_at | date:"j E G:H"}}</span>
+                {% endlanguage %}
+            </div>
+        {% endfor %}
+
+    </div>
 {% endblock %}

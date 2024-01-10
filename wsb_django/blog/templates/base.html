@@ -34,17 +34,32 @@
       }
     </style>
   </head>
-  <body>
-    <nav class="w-screen h-14 bg-stone-800 text-white flex items-center justify-center">
-      <div class="w-full max-w-xl flex justify-between">
+  <body class="pb-36">
+    <nav class="h-14 bg-stone-800 text-white flex items-center justify-center sticky top-0 z-50">
+      <div class="w-full max-w-xl flex justify-between px-6">
         <h1 class="font-bold text-xl">wsb_django/blog</h1>
-        <a>Login</a>
+        <div class="flex items-end">
+          {% if request.user.is_authenticated %}
+            <div class="bg-stone-600 rounded-full px-2 flex items-center justify-center gap-x-1.5 h-6 relative z-10">
+              <i class="text-sm text-white">account_circle</i>
+              <span class="font-semibold text-sm">{{ request.user.username }}</span>
+            </div>
+            <a href="/blog/logout"
+               class="bg-red-800/80  rounded-r-full px-4 pl-5 py-1 text-white flex items-center w-max text-sm gap-x-2 text-sm h-6
+                          relative before:w-6 before:h-6 before:bg-stone-800 before:content-[''] before:absolute before:-left-3.5 before:rounded-r-full">
+              Logout
+            </a>
+          {% else %}
+            <a href="/blog/login"
+               class="bg-red-800/80 rounded-full px-4 py-1 text-white flex items-center w-max text-sm gap-x-2 h-6">
+              Login
+            </a>
+          {% endif %}
+        </div>
       </div>
     </nav>
     <main>
       {% block content %} {% endblock %}
     </main>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" ></script>
   </body>
 </html>

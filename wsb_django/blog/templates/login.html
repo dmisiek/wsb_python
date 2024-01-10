@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome to wsb_django/blog!{% endblock %}
+
+{% block content %}
+
+<div class="w-full bg-stone-800 h-12">
+    <div class="w-full h-full bg-white rounded-t-3xl"></div>
+</div>
+
+<h1>Login</h1>
+<form method="POST">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit">Login</button>
+</form>
+
+{% endblock %}
