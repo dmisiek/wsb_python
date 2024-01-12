@@ -11,23 +11,23 @@
         <div class="w-full h-full bg-stone-100 rounded-t-3xl flex pt-10">
             <div class="flex-1 flex justify-end">
                 <a href="/blog"
-                   class="w-8 h-8 bg-white rounded-full flex items-center justify-center cursor-pointer mr-2">
+                   class="w-8 h-8 bg-white rounded-full flex items-center justify-center cursor-pointer mt-0.5 mr-3">
                     <i>chevron_left</i>
                 </a>
             </div>
             <div class="w-full max-w-xl">
-                <div class="w-full bg-stone-100 rounded-xl px-6 pt-1 pb-10">
-                    <div class="flex items-center gap-x-2">
+                <div class="w-full bg-stone-100 rounded-xl px-6 pb-10">
+                    <h2 class="text-3xl font-bold">{{ post.title }}</h2>
+                    <p class="mt-2 text-sm leading-tight mb-10">{{ post.content }}</p>
+
+                    <div class="flex items-center gap-x-2 select-none">
                         <i class="text-lg">account_circle</i>
                         <span>{{ post.author }}</span>
                     </div>
 
-                    <h2 class="text-3xl font-bold mt-6">{{ post.title }}</h2>
-                    <p class="mt-2 text-sm leading-tight mb-10">{{ post.content }}</p>
-
-                {% language 'pl' %}
-                    <span class="text-stone-400 text-sm">Dodano {{ post.updated_at | date:"j E G:H"}}</span>
-                {% endlanguage %}
+                    {% language 'pl' %}
+                        <span class="text-stone-400 text-sm">Dodano {{ post.updated_at | date:"j E G:H"}}</span>
+                    {% endlanguage %}
                 </div>
             </div>
             <div class="flex-1"></div>

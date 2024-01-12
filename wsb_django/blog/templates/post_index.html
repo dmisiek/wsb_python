@@ -3,7 +3,7 @@
 {% load i18n %}
 
 {% block title %}
-    Welcome to wsb_django/blog!
+    Witaj na wsb_django/blog!
 {% endblock %}
 
 {% block content %}
@@ -11,7 +11,16 @@
         <div class="w-full h-full bg-white rounded-t-3xl"></div>
     </div>
 
-    <div class="w-full max-w-xl mx-auto">
+    <a href="/blog/create" class="hover:scale-105 duration-200">
+        {% csrf_token %}
+        <input type="hidden" name="show_add" value="true">
+        <button type="submit" class="bg-stone-800 rounded-3xl p-4 flex items-center gap-x-2 w-full max-w-xl mx-auto text-white">
+            <i>add_circle</i>
+            Dodaj nowy post
+        </button>
+    </a>
+
+    <div class="w-full max-w-xl mx-auto flex flex-col gap-y-6 mt-12">
         {% for post in posts %}
             <div class="w-full bg-stone-100 rounded-xl p-6 pr-12">
 
@@ -34,9 +43,9 @@
                 <div class="flex justify-between items-center mt-8 ">
                     <div class="flex gap-x-1">
                         <a href="/blog/{{ post.id }}"
-                           class="bg-stone-800 rounded-full px-4 py-1 text-white flex items-center w-max text-sm gap-x-2">
+                           class="bg-stone-700 rounded-full px-4 py-1 text-white flex items-center w-max text-sm gap-x-2">
                             <i class="text-sm text-white">comment</i>
-                            Comment
+                            Skomentuj
                         </a>
         <!--                <span href="/blog/{{ post.id }}"-->
         <!--                   class="bg-red-800/80 rounded-full px-4 py-1 text-white flex items-center w-max text-sm gap-x-2">-->

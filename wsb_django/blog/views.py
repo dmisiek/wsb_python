@@ -2,13 +2,13 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 
 from .models import Post, Comment
-from .forms import LoginForm, CommentCreateForm
+from .forms import LoginForm, CommentCreateForm, PostCreateForm
 
 
 # Create your views here.
 def post_index(request):
     context = {
-        'posts': Post.objects.all()
+        'posts': Post.objects.all().order_by('-created_at')
     }
 
     return render(request, 'post_index.html', context)
@@ -38,6 +38,24 @@ def post_show(request, id):
             context['form'] = CommentCreateForm()
 
     return render(request, 'post_show.html', context)
+
+def post_create(request):
+    if not request.user.is_authenticated:
+        return redirect('auth.login')
+
+    if request.method == 'POST':
+        form = PostCreateForm(request.POST)
+        if form.is_valid():
+            post = Post.objects.create(
+                title=form.cleaned_data.get('title'),
+                content=form.cleaned_data.get('content'),
+                author=request.user
+            )
+            return redirect('post.show', id=post.id)
+    else:
+        form = PostCreateForm()
+
+    return render(request, 'post_form.html', {'form': form})
 
 def auth_login(request):
     if request.user.is_authenticated:
