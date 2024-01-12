@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 
 from .models import Post, Comment
-from .forms import LoginForm, CommentCreateForm, PostCreateForm
+from .forms import LoginForm, CommentCreateForm, PostForm
 
 
 # Create your views here.
@@ -13,8 +13,8 @@ def post_index(request):
 
     return render(request, 'post_index.html', context)
 
-def post_show(request, id):
-    post = Post.objects.get(id=id)
+def post_show(request, pk):
+    post = Post.objects.get(id=pk)
     comments = Comment.objects.filter(post=post).order_by('-created_at')
     context = {
         'post': post,
@@ -32,7 +32,6 @@ def post_show(request, id):
             )
         else:
             if not request.user.is_authenticated:
-                # TODO: Add redirect to prevoius page
                 return redirect('auth.login')
 
             context['form'] = CommentCreateForm()
@@ -44,18 +43,56 @@ def post_create(request):
         return redirect('auth.login')
 
     if request.method == 'POST':
-        form = PostCreateForm(request.POST)
+        form = PostForm(request.POST)
         if form.is_valid():
             post = Post.objects.create(
                 title=form.cleaned_data.get('title'),
                 content=form.cleaned_data.get('content'),
                 author=request.user
             )
-            return redirect('post.show', id=post.id)
+            return redirect('post.show', pk=post.id)
     else:
-        form = PostCreateForm()
+        form = PostForm()
 
-    return render(request, 'post_form.html', {'form': form})
+    return render(request, 'post_create.html', {'form': form})
+
+def post_update(request, pk):
+    if not request.user.is_authenticated:
+        return redirect('auth.login')
+
+    post = Post.objects.get(id=pk)
+
+    if post.author != request.user:
+        return redirect('post.show', pk=post.id)
+
+    if request.method == 'POST':
+        form = PostForm(request.POST)
+        if form.is_valid():
+            Post.objects.filter(id=pk).update(
+                title=form.cleaned_data.get('title'),
+                content=form.cleaned_data.get('content'),
+                author=post.author,
+            )
+            return redirect('post.show', pk=post.id)
+    else:
+        form = PostForm(instance=post)
+
+    return render(request, 'post_update.html', {'form': form, 'post': post})
+
+def post_delete(request, pk):
+    if not request.user.is_authenticated:
+        return redirect('auth.login')
+
+    post = Post.objects.get(id=pk)
+
+    if post.author != request.user:
+        return redirect('post.show', pk=post.id)
+
+    if request.method == 'POST':
+        post.delete()
+        return redirect('post.index')
+
+    return render(request, 'post_delete.html', {'post': post})
 
 def auth_login(request):
     if request.user.is_authenticated:
