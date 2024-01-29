@@ -16,7 +16,7 @@ Python repository with couple simple projects created for WSB University python 
 4. Napisz program, który odczytuje tekst z obrazu zawierającego kod kreskowy lub QR, a następnie dekoduje i wyświetla informacje zawarte w kodzie.
 
 
-5. Napisz program, który odczytuje tekst z obrazu zawierającego fragment mapy, a następnie wyświetla współrzędne geograficzne i nazwy miejscowości znajdujących się na mapie.
+5. **Napisz program, który odczytuje tekst z obrazu zawierającego fragment mapy, a następnie wyświetla współrzędne geograficzne i nazwy miejscowości znajdujących się na mapie.** [map_reader]
 
 
 6. Napisz program, który odczytuje tekst z obrazu  zawierającego tytuł i fragment artykułu prasowego, a  następnie podsumowuje treść artykułu i wyświetla źródło i  datę publikacji.
@@ -37,7 +37,7 @@ Python repository with couple simple projects created for WSB University python 
 11. **Stwórz prostą aplikację bloga, która pozwala  użytkownikom na tworzenie, edycję oraz komentowanie  postów innych użytkowników.** [wsb_django > blog]
 
 
-12. **Stwórz aplikację ankiety, która pozwala użytkownikom  tworzyć, odpowiadać i przeglądać wyniki ankiet.** [wsb_django > surveys]
+12. Stwórz aplikację ankiety, która pozwala użytkownikom  tworzyć, odpowiadać i przeglądać wyniki ankiet.
 
 
 13. Stwórz prostą alokację sklep internetowego, która pozwala  użytkownikom przeglądać, dodawać do koszyka, kupować  produkty oraz zarządzać zamówieniami i płatnościami
