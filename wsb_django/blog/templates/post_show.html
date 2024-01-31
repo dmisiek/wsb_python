@@ -10,7 +10,7 @@
     <div class="w-full bg-stone-800">
         <div class="w-full h-full bg-stone-100 rounded-t-3xl flex pt-10">
             <div class="flex-1 flex justify-end pt-0.5">
-                <a href="/blog"
+                <a href="/"
                    class="w-8 h-8 bg-white rounded-full flex items-center justify-center cursor-pointer mr-3">
                     <i class="select-none">chevron_left</i>
                 </a>
@@ -32,12 +32,12 @@
             </div>
             <div class="flex-1 flex flex-col gap-y-3 pt-0.5">
                 {% if request.user == post.author %}
-                    <a href="/blog/{{ post.id }}/update"
+                    <a href="/{{ post.id }}/update"
                        class="w-8 h-8 bg-white hover:bg-blue-200 rounded-full flex items-center justify-center cursor-pointer  ml-3">
                         <i class="text-base select-none">edit</i>
                     </a>
 
-                    <a href="/blog/{{ post.id }}/delete"
+                    <a href="/{{ post.id }}/delete"
                        class="w-8 h-8 bg-white hover:bg-red-200 rounded-full flex items-center justify-center cursor-pointer ml-3">
                         <i class="text-base select-none">delete</i>
                     </a>
@@ -60,13 +60,13 @@
             </button>
         </form>
     {% else %}
-        <form method="POST"  class="bg-stone-800 rounded-3xl p-6 gap-x-2 w-full max-w-xl mx-auto text-white">
+        <form method="POST"  class="bg-stone-300 rounded-3xl p-6 pt-1 gap-x-2 w-full max-w-xl mx-auto">
             {% csrf_token %}
 
             {{ form }}
 
             <button type="submit"
-               class="bg-red-800/80 hover:bg-red-800 duration-150 rounded-full px-4 py-1 text-white flex items-center w-max text-sm gap-x-2">
+               class="bg-red-800/80 hover:bg-red-800 duration-150 rounded-full px-4 py-2 text-white flex items-center justify-center w-full mt-6 text-sm gap-x-2">
                 Zapisz
                 <i class="text-sm text-white">done</i>
             </button>
@@ -81,7 +81,7 @@
             <div class=" bg-stone-100 px-6 py-4 rounded-xl">
                 <div class="flex items-center gap-x-1">
                     <i class="text-base">account_circle</i>
-                    <span class="text-sm">{{ post.author }}</span>
+                    <span class="text-sm">{{ comment.author }}</span>
                 </div>
                 <p class="text-sm leading-tight mt-2 mb-6">{{ comment.content }}</p>
 

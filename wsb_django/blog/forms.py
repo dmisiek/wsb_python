@@ -4,14 +4,20 @@ from .models import Post
 
 
 class LoginForm(forms.Form):
-    username = forms.CharField()
-    password = forms.CharField(widget=forms.PasswordInput)
+    username = forms.CharField(widget=forms.TextInput, label="Nazwa użytkownika")
+    password = forms.CharField(widget=forms.PasswordInput, label="Hasło")
 
 class PostForm(forms.ModelForm):
-    title = forms.CharField()
+    title = forms.CharField(
+        label="Tytuł",
+        widget=forms.TextInput(
+            attrs={'placeholder': 'Podaj tytuł nowego postu'}
+        )
+    )
     content = forms.CharField(
+        label="Treść",
         widget=forms.Textarea(
-            attrs={'class': 'bg-stone-700 text-sm', 'placeholder': 'Enter your comment...'}
+            attrs={'placeholder': 'Wpisz treść nowego postu...'}
         )
     )
 
@@ -21,7 +27,8 @@ class PostForm(forms.ModelForm):
 
 class CommentCreateForm(forms.Form):
     content = forms.CharField(
+        label="Treść komentarza",
         widget=forms.Textarea(
-            attrs={'class': 'bg-stone-700 text-sm', 'placeholder': 'Enter your comment...'}
+            attrs={'placeholder': 'Wpisz treść komentarza...'}
         )
     )

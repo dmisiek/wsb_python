@@ -8,11 +8,17 @@
     <div class="w-full h-full bg-white rounded-t-3xl"></div>
 </div>
 
-<h1>Login</h1>
-<form method="POST">
-    {% csrf_token %}
-    {{ form }}
-    <button type="submit">Login</button>
-</form>
+<div class="rounded-lg bg-stone-100 p-4 w-[350px] mx-auto">
+    <h1 class="font-bold text-center text-stone-900">Login</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form }}
+
+        <button type="submit" class="mt-4 bg-stone-700 hover:bg-stone-800 rounded-full py-2 px-4 text-sm text-white text-semibold">
+            Zaloguj
+        </button>
+    </form>
+</div>
+
 
 {% endblock %}

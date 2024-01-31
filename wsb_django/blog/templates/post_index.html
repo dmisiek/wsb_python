@@ -11,7 +11,7 @@
         <div class="w-full h-full bg-white rounded-t-3xl"></div>
     </div>
 
-    <a href="/blog/create" class="hover:scale-105 duration-200">
+    <a href="/create" class="hover:scale-105 duration-200">
         {% csrf_token %}
         <input type="hidden" name="show_add" value="true">
         <button type="submit" class="bg-stone-800 rounded-3xl p-4 flex items-center gap-x-2 w-full max-w-xl mx-auto text-white">
@@ -37,20 +37,16 @@
                     {% endlanguage %}
                 </div>
 
-                <a class="text-2xl font-bold mt-2 block" href="/blog/{{ post.id }}">{{ post.title }}</a>
+                <a class="text-2xl font-bold mt-2 block" href="/{{ post.id }}">{{ post.title }}</a>
                 <p class="mt-2 text-sm leading-tight text-justify">{{ post.content }}</p>
 
                 <div class="flex justify-between items-center mt-8 ">
                     <div class="flex gap-x-1">
-                        <a href="/blog/{{ post.id }}"
+                        <a href="/{{ post.id }}"
                            class="bg-stone-700 rounded-full px-4 py-1 text-white flex items-center w-max text-sm gap-x-2">
                             <i class="text-sm text-white">comment</i>
                             Skomentuj
                         </a>
-        <!--                <span href="/blog/{{ post.id }}"-->
-        <!--                   class="bg-red-800/80 rounded-full px-4 py-1 text-white flex items-center w-max text-sm gap-x-2">-->
-        <!--                    <i class="text-sm text-white">share</i>-->
-        <!--                </span>-->
                     </div>
 
 

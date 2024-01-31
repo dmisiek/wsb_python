@@ -3,14 +3,14 @@
 {% load i18n %}
 
 {% block title %}
-    Create post
+    wsb_django/blog: Tworzenie postu
 {% endblock %}
 
 {% block content %}
     <div class="w-full bg-stone-800">
         <div class="w-full h-full bg-stone-100 rounded-t-3xl flex justify-center pt-10 pb-10">
             <div class="flex-1 flex justify-end">
-                <a href="/blog"
+                <a href="/"
                    class="w-8 h-8 bg-white rounded-full flex items-center justify-center cursor-pointer mt-0.5 mr-3">
                     <i>chevron_left</i>
                 </a>
@@ -22,7 +22,7 @@
 
                 {{ form }}
 
-                <div class="flex items-center justify-between mt-4">
+                <div class="flex flex-row items-center justify-between mt-4">
                     <div class="flex items-center gap-x-2 select-none">
                         <p class="text-sm">Tworzysz post jako</p>
                         <div class="flex items-center gap-x-0.5">

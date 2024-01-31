@@ -3,7 +3,7 @@
 {% load i18n %}
 
 {% block title %}
-    Usuwanie postu
+    wsb_django/blog: Usuwanie postu
 {% endblock %}
 
 {% block content %}
@@ -15,12 +15,12 @@
                 <h2 class="text-2xl font-bold mb-2 select-none mx-8 text-center">Jesteś pewien, że chcesz usunąć post?</h2>
                 <p class="text-center mx-16 mb-10">Post zostanie trwale usunięty i nie będzie możliwości przywrócenia jego treści</p>
 
-                <div class="flex items-center justify-center mt-4 gap-x-6">
+                <div class="flex flex-row items-center justify-center mt-4 gap-x-6">
                     <button type="submit" class="bg-red-700 hover:bg-red-800 rounded-full py-2 px-4 text-sm text-white text-semibold flex items-center">
                         <i class="text-sm mr-1">delete</i>
                         Usuń
                     </button>
-                    <a href="/blog/{{ post.id }}" class="bg-stone-700 hover:bg-stone-800 rounded-full py-2 px-4 text-sm text-white text-semibold">
+                    <a href="/{{ post.id }}" class="bg-stone-700 hover:bg-stone-800 rounded-full py-2 px-4 text-sm text-white text-semibold">
                         Anuluj
                     </a>
                 </div>
