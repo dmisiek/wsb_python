@@ -1,0 +1,8 @@
+easyocr~=1.7.1
+geopy~=2.4.1
+matplotlib~=3.8.2
+numpy~=1.26.2
+Django~=5.0.1
+lxml~=4.9.4
+pandas~=2.1.4
+opencv-python~=4.9.0
