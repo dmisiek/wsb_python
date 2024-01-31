@@ -4,19 +4,19 @@ Python repository with couple simple projects created for WSB University python 
 
 ### List of all tasks:
 
-1. Napisz program, który odczytuje tekst z obrazu zawierającego wykres funkcji matematycznej, a następnie rysuje ten sam wykres za pomocą matplotlib.
+1. **> Napisz program, który odczytuje tekst z obrazu zawierającego wykres funkcji matematycznej, a następnie rysuje ten sam wykres za pomocą matplotlib.** [math_chart]
 
 
-2. **Napisz program, który odczytuje tekst z obrazu zawierającego numer tablicy rejestracyjnej samochodu, a następnie sprawdza, czy numer jest poprawny i zgodny z formatem.** [plate_validate]
+2. **> Napisz program, który odczytuje tekst z obrazu zawierającego numer tablicy rejestracyjnej samochodu, a następnie sprawdza, czy numer jest poprawny i zgodny z formatem.** [plate_validate]
 
 
-3. **Napisz program, który odczytuje tekst z obrazu zawierającego nazwę kraju i flagę, a następnie wyświetla informacje o tym kraju, takie jak stolica, waluta, populacja itp.** [country_reader]
+3. **> Napisz program, który odczytuje tekst z obrazu zawierającego nazwę kraju i flagę, a następnie wyświetla informacje o tym kraju, takie jak stolica, waluta, populacja itp.** [country_reader]
 
 
 4. Napisz program, który odczytuje tekst z obrazu zawierającego kod kreskowy lub QR, a następnie dekoduje i wyświetla informacje zawarte w kodzie.
 
 
-5. **Napisz program, który odczytuje tekst z obrazu zawierającego fragment mapy, a następnie wyświetla współrzędne geograficzne i nazwy miejscowości znajdujących się na mapie.** [map_reader]
+5. **> Napisz program, który odczytuje tekst z obrazu zawierającego fragment mapy, a następnie wyświetla współrzędne geograficzne i nazwy miejscowości znajdujących się na mapie.** [map_reader]
 
 
 6. Napisz program, który odczytuje tekst z obrazu  zawierającego tytuł i fragment artykułu prasowego, a  następnie podsumowuje treść artykułu i wyświetla źródło i  datę publikacji.
@@ -28,13 +28,13 @@ Python repository with couple simple projects created for WSB University python 
 8. Napisz program, który odczytuje tekst z obrazu  zawierającego receptę lekarską, a następnie wyświetla  informacje o lekach przepisanych przez lekarza, takie jak  nazwa, dawka, sposób podania itp.
 
 
-9. **Napisz program, który odczytuje tekst z obrazu  zawierającego listę zakupów, a następnie oblicza łączną  cenę produktów i wyświetla ją na wykresie kołowym.** [shopping_list_counter]
+9. **> Napisz program, który odczytuje tekst z obrazu  zawierającego listę zakupów, a następnie oblicza łączną  cenę produktów i wyświetla ją na wykresie kołowym.** [shopping_list_counter]
 
 
 10. Napisz program, który odczytuje tekst z obrazu  zawierającego nazwy i zdjęcia zwierząt, a następnie  klasyfikuje zwierzęta według ich gatunku i wyświetla je na  wykresie słupkowym.
 
 
-11. **Stwórz prostą aplikację bloga, która pozwala  użytkownikom na tworzenie, edycję oraz komentowanie  postów innych użytkowników.** [wsb_django > blog]
+11. **> Stwórz prostą aplikację bloga, która pozwala  użytkownikom na tworzenie, edycję oraz komentowanie  postów innych użytkowników.** [wsb_django > blog]
 
 
 12. Stwórz aplikację ankiety, która pozwala użytkownikom  tworzyć, odpowiadać i przeglądać wyniki ankiet.

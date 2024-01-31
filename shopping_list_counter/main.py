@@ -28,7 +28,6 @@ def main():
             else:
                 unit = f'{tmp[0]}{tmp[1]}'
 
-
             shopping_list.append({
                 'name': item.replace(unit, '').strip(),
                 'quantity': unit
