@@ -14,6 +14,8 @@ def main():
         search_details(country_name)
 
 def read_country_names(img_path: str):
+    print(f'Reading country names from {img_path}...\n')
+
     img = cv2.imread(img_path, cv2.IMREAD_COLOR)
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     gray = cv2.bilateralFilter(gray, 13, 15, 15)

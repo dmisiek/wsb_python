@@ -9,6 +9,8 @@ def main():
     draw_math_function(function)
 
 def read_math_function(img_path: str):
+    print(f'Reading math function from {img_path}...\n')
+
     img = cv2.imread(img_path, cv2.IMREAD_COLOR)
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     gray = cv2.bilateralFilter(gray, 13, 15, 15)
@@ -83,6 +85,8 @@ def calc_value_for_argument(fx: str, x: int) -> int:
     return value_list[0]
 
 def draw_math_function(function: str):
+    print(f"Drawing math function '{function}' chart...")
+
     ax = plt.axes()
     ax.grid(True, which='both')
     ax.axhline(0, color='black', linewidth=.5)
